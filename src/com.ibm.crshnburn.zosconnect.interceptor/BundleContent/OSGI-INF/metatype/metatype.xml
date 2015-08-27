@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.1.0"  
+                   xmlns:ibm="http://www.ibm.com/xmlns/appservers/osgi/metatype/v1.0.0"
+                   localization="OSGI-INF/l10n/metatype">
+
+    <OCD id="com.ibm.zosconnect.reference.interceptor" ibm:alias="referenceInterceptor" name="referenceInterceptor" description="Sample z/OS Connect Interceptor">
+        <AD id="com.ibm.ws.zos.connect.interceptorType" required="false" type="String" ibm:final="true" name="internal" description="Sample Interceptor"/>
+    </OCD>
+
+    <Designate factoryPid="com.ibm.zosconnect.reference.interceptor">
+        <Object ocdref="com.ibm.zosconnect.reference.interceptor" />
+    </Designate>
+</metatype:MetaData>
