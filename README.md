@@ -5,7 +5,7 @@ of a z/OS Connect configuration.
 
 ### Installing
 
-* Clone this repository `git clone git@github.com:crshnburn/zosconnect-sample-interceptor.git`
+* Clone this repository `git clone git://github.com/crshnburn/zosconnect-sample-interceptor.git`
 * Install the feature into your WebSphere Liberty `featureManager install sample-interceptor.esa`
 
 ### Configuring
