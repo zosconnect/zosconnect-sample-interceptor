@@ -3,6 +3,6 @@
   <runtime name="WebSphere Application Server Liberty Profile"/>
   <fixed facet="osgi.bundle"/>
   <fixed facet="java"/>
-  <installed facet="java" version="1.8"/>
   <installed facet="osgi.bundle" version="1.0"/>
+  <installed facet="java" version="1.6"/>
 </faceted-project>
