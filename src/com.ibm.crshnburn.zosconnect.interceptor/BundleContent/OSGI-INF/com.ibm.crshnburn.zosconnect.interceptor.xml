@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component xmlns="http://www.osgi.org/xmlns/scr/v1.2.0" activate="activate" configuration-policy="require" deactivate="deactivate" modified="modified" name="referenceInterceptor" configuration-pid="com.ibm.zosconnect.reference.interceptor">
+<component xmlns="http://www.osgi.org/xmlns/scr/v1.2.0" activate="activate" configuration-policy="require" deactivate="deactivate" modified="modified" name="simpleInterceptor" configuration-pid="com.ibm.crshnburn.zosconnect.interceptor">
   <implementation class="com.ibm.crshnburn.zosconnect.interceptor.SimpleInterceptorImpl"/>
   <service>
      <provide interface="com.ibm.wsspi.zos.connect.Interceptor"/>
