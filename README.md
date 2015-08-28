@@ -21,6 +21,12 @@ of a z/OS Connect configuration.
 ```
 * Add the interceptors to the required services.
 
+### Updating
+
+If you want to use this sample as the basis of your own interceptor, or add extra functionality to
+this interceptor then the contents of the `src` directory can be imported into an Eclipse installation
+which has the WDT tools installed.
+
 ### Notice
 
 &copy; Copyright IBM Corporation 2015
