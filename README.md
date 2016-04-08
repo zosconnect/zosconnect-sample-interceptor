@@ -1,12 +1,12 @@
-## Sample z/OS Connect Interceptor
+## Sample z/OS Connect Enterprise Edition Interceptor
 
-A z/OS Connect Interceptor which demonstrates how to build an interceptor and include it as part
-of a z/OS Connect configuration.
+A z/OS Connect Enterprise Edition (EE) Interceptor which demonstrates how to build an
+interceptor and include it as part of a z/OS Connect configuration.
 
 ### Installing
 
-* Clone this repository `git clone git://github.com/crshnburn/zosconnect-sample-interceptor.git`
-* Install the feature into your WebSphere Liberty `featureManager install sample-interceptor.esa`
+* Clone this repository `git clone git://github.com/zosconnect/zosconnect-sample-interceptor.git`
+* Install the feature into your z/OS Connect EE environment `wlp/bin/featureManager install sample-interceptor.esa`
 
 ### Configuring
 
@@ -17,7 +17,7 @@ of a z/OS Connect configuration.
 * Create an interceptor definition
 ```
 <usr_simpleInterceptor id="simpleInterceptor"/>
-<zosConnectInterceptors id="interceptorList" interceptorRef="simpleInterceptor"/>
+<zosconnect_zosConnectInterceptors id="interceptorList" interceptorRef="simpleInterceptor"/>
 ```
 * Add the interceptors to the required services.
 
@@ -29,7 +29,7 @@ which has the WDT tools installed.
 
 ### Notice
 
-&copy; Copyright IBM Corporation 2015
+&copy; Copyright IBM Corporation 2015, 2016
 
 ### License
 ```
