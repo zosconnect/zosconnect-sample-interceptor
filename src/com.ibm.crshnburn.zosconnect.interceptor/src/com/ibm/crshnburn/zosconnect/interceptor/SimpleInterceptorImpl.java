@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.osgi.service.component.ComponentContext;
 
-import com.ibm.wsspi.zos.connect.*;
+import com.ibm.zosconnect.spi.*;
 
 public class SimpleInterceptorImpl implements Interceptor {
 

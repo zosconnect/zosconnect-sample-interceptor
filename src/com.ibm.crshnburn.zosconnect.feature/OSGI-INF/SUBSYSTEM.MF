@@ -4,6 +4,5 @@ IBM-ShortName: sampleinterceptor-1.0
 Subsystem-SymbolicName: com.ibm.crshnburn.zosconnect.feature;visibility:=public
 Subsystem-Version: 1.0.0.0
 Subsystem-Type: osgi.subsystem.feature
-Subsystem-Content: com.ibm.crshnburn.zosconnect.interceptor;version=1.0.0,
-   com.ibm.websphere.appserver.zosConnect-1.0; type="osgi.subsystem.feature"
+Subsystem-Content: com.ibm.crshnburn.zosconnect.interceptor;version=1.0.0
 Manifest-Version: 1.0

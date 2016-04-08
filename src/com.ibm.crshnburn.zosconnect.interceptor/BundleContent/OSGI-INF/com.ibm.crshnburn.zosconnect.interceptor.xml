@@ -2,7 +2,7 @@
 <component xmlns="http://www.osgi.org/xmlns/scr/v1.2.0" activate="activate" configuration-policy="require" deactivate="deactivate" modified="modified" name="simpleInterceptor" configuration-pid="com.ibm.crshnburn.zosconnect.interceptor">
   <implementation class="com.ibm.crshnburn.zosconnect.interceptor.SimpleInterceptorImpl"/>
   <service>
-     <provide interface="com.ibm.wsspi.zos.connect.Interceptor"/>
+     <provide interface="com.ibm.zosconnect.spi.Interceptor"/>
   </service>
   <property name="service.vendor" type="String" value="IBM"/>
   <property name="service.product" type="String" value="Sample Interceptor"/>
