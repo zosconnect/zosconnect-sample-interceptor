@@ -27,12 +27,14 @@ import org.osgi.service.component.ComponentContext;
 import com.ibm.zosconnect.spi.*;
 
 public class SimpleInterceptorImpl implements Interceptor {
+	private int sequence;
 
 	private DateFormat df = SimpleDateFormat.getDateTimeInstance();
 
 	protected void activate(ComponentContext context,
 			Map<String, Object> properties) {
 		System.out.println("Sample interceptor activated");
+		sequence = (Integer) properties.get(CFG_AD_SEQUENCE_ALIAS);
 	}
 
 	protected void deactivate(ComponentContext context) {
@@ -78,7 +80,7 @@ public class SimpleInterceptorImpl implements Interceptor {
 
 	@Override
 	public int getSequence() {
-		return 1;
+		return sequence;
 	}
 
 }
