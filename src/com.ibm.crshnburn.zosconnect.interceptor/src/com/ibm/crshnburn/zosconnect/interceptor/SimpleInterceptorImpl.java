@@ -42,7 +42,8 @@ public class SimpleInterceptorImpl implements Interceptor {
 	}
 
 	protected void modified(Map<String, Object> properties) {
-		
+		System.out.println("Sample interceptor modified");
+		sequence = (Integer) properties.get(CFG_AD_SEQUENCE_ALIAS);
 	}
 
 	@Override
