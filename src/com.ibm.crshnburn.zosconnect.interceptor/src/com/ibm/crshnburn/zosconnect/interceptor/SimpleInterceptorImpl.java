@@ -55,28 +55,30 @@ public class SimpleInterceptorImpl implements Interceptor {
 	public void preInvoke(Map<Object, Object> requestStateMap,
 			HttpZosConnectRequest httpZosConnectRequest, Data data)
 			throws InterceptorException {
+		System.out.println("ReferenceInterceptor preInvoke");
 		Principal principal = httpZosConnectRequest.getUserPrincipal();
 		String user = "<unknown>";
 		if(principal != null){
 			user = principal.getName().trim();
 		}
 		String path = httpZosConnectRequest.getRequestURI().trim();
-		System.out.printf("ReferenceInterceptor preInvoke\nUser %s called URI %s at %s\n", user, path,
-				df.format(new Date()));
+		System.out.println(String.format("User %s called URI %s at %s", user, path,
+				df.format(new Date())));
 	}
 
 	@Override
 	public void postInvoke(Map<Object, Object> requestStateMap,
 			HttpZosConnectRequest httpZosConnectRequest, Data data)
 			throws InterceptorException {
+		System.out.println("ReferenceInterceptor postInvoke");
 		Principal principal = httpZosConnectRequest.getUserPrincipal();
 		String user = "<unknown>";
 		if(principal != null){
 			user = principal.getName().trim();
 		}
 		String path = httpZosConnectRequest.getRequestURI().trim();
-		System.out.printf("ReferenceInterceptor postInvoke\nUser %s finished calling URI %s at %s\n", user,
-				path, df.format(new Date()));
+		System.out.println(String.format("User %s finished calling URI %s at %n", user,
+				path, df.format(new Date())));
 	}
 
 	@Override
