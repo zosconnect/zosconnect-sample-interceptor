@@ -77,7 +77,7 @@ public class SimpleInterceptorImpl implements Interceptor {
 			user = principal.getName().trim();
 		}
 		String path = httpZosConnectRequest.getRequestURI().trim();
-		System.out.println(String.format("User %s finished calling URI %s at %n", user,
+		System.out.println(String.format("User %s finished calling URI %s at %s", user,
 				path, df.format(new Date())));
 	}
 
