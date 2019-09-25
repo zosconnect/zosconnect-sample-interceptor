@@ -7,7 +7,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.ibm.zosconnect.spi,
  org.osgi.framework,
  org.osgi.service.component
-Service-Component: OSGI-INF/com.ibm.crshnburn.zosconnect.interceptor.xml
+Service-Component: OSGI-INF/com.ibm.crshnburn.zosconnect.interceptor.xml,
+ OSGI-INF/com.ibm.crshnburn.zosconnect.allpointsinterceptor.xml
 Export-Package: com.ibm.crshnburn.zosconnect.interceptor
 Bundle-Activator: com.ibm.crshnburn.zosconnect.interceptor.Activator
 

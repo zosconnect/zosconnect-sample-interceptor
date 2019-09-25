@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
-  <runtime name="WebSphere Application Server Liberty Profile"/>
+  <runtime name="Liberty Runtime"/>
   <fixed facet="osgi.bundle"/>
   <fixed facet="java"/>
   <installed facet="osgi.bundle" version="1.0"/>
