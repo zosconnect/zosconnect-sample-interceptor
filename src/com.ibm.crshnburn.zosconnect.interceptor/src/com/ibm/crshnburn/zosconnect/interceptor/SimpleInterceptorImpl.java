@@ -39,27 +39,27 @@ import com.ibm.zosconnect.spi.InterceptorException;
  * caller. For simplification these points are known as P1, and P4.  See the  AllPointsInterceptorSample for
  * details of points P2 and P3.
  *
- * The flow of the API Provider request as it relates to the Interceptor framework is as follows.
+ * The flow of the API provider request as it relates to the Interceptor framework is as follows.
  *
  * 1.  A request is received by z/OS Connect EE.
  * 2.  The request is validated, e.g. Bad URL paths, authentication failures, bad JSON, etc.
  * 3.  Next, the requests Service and API information is extracted and matched to registered Services and APIs.
  * 4.  Should the request fail in the above processing the request is said to be an Early Failed request.
- * 5.  If there is an Interceptor registered with the Global Interceptor Manager that implements the
- *     EarlyFailureInterceptor interface its EarlyFail method will be invoked and the request terminates.
- * 6.  The API Provider request has now passed the early checks, the request can still fail, but it is now
- *     not an EarlyFailure and EarlyFail will now not be called.
- * 7.  If there is an Interceptor registered with either the Global, Service or API Interceptor Managers that
+ * 5.  If there is an Interceptor registered at the Global level that implements the
+ *     EarlyFailureInterceptor interface its earlyFailure method will be invoked and the request terminates.
+ * 6.  The API provider request has now passed the early checks, the request can still fail, but it is now
+ *     not an early failure and earlyFailure will now not be called.
+ * 7.  If there is an Interceptor registered at either the Global, Service or API levels that
  *     implements the Interceptor interface its preInvoke method will be invoked. This is point P1.
  * 8.  Request flow continues through z/OS Connect EE into the Service Provider which will call the
  *     System Of Record, e.g. CICS, IMS, DB2, etc.
- * 9.  If there is an Interceptor registered with either the Global, Service or API Interceptor Managers that
+ * 9.  If there is an Interceptor registered at either the Global, Service or API levels that
  *     implements the ServiceProviderInterceptor interface its preSorInvoke method will be invoked.
  *     This is point P2.  The SoR is then invoked.
  * 10. Once the SoR returns the ServiceProviderInterceptor is invoked on its postSorInvoke method.
  *     This is point P3.
- * 11. The API Provider response flow continues, any registered Interceptor's with either the Global, Service
- *     or API Interceptor Managers that implements the Interceptor interface is invoked on its postInvoke method.
+ * 11. The API provider response flow continues, any registered Interceptors at either the Global, Service or API
+ *     levels that implements the Interceptor interface is invoked on its postInvoke method.
  *     This is point P4. Finally the response is sent by z/OS Connect EE.
  *
  * This Interceptor will be notified for all requests entering the z/OS Connect EE application on the Interceptor's
@@ -79,7 +79,7 @@ public class SimpleInterceptorImpl implements Interceptor {
 
     /**
      * The registered sequence number of this Interceptor which determines the order
-     * in which the Interceptor is called in relation to other Interceptor's.
+     * in which the Interceptor is called in relation to other Interceptors.
      */
     private int sequence;
 
@@ -134,8 +134,7 @@ public class SimpleInterceptorImpl implements Interceptor {
     }
 
     /**
-     * Returns this Interceptor's configured sequence number so the Interceptor Manager
-     * can determine the call sequence of Interceptor's.
+     * Returns this Interceptor's configured sequence number.
      */
     @Override
     public int getSequence() {
@@ -151,7 +150,7 @@ public class SimpleInterceptorImpl implements Interceptor {
     }
 
     /**
-     * Interceptor Manager calls preInvoke method at point P1.
+     * z/OS Connect EE calls preInvoke method at point P1.
      *
      * The Interceptor is given a request state map that can be used to store data entities between the preInvoke
      * at P1 and the postInvoke at P4.
@@ -160,7 +159,7 @@ public class SimpleInterceptorImpl implements Interceptor {
      * URL, HTTP Headers, etc. See com.ibm.zosconnect.spi.HttpZosConnectRequest javadoc for details.
      *
      * The Data object provides the request specific data available to Interceptor's and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.  As an example
      * Data.TIME_ZOS_CONNECT_ENTRY is available which contains the z/OS Store Clock Extended time held
      * in a byte array of length 16.
@@ -197,7 +196,7 @@ public class SimpleInterceptorImpl implements Interceptor {
 
         /*
          * Validate the user, if the userid starts with "EX" then this is an Example id
-         * and is not allowed to run API Provider requests.
+         * and is not allowed to run API provider requests.
          */
         if (user.startsWith("EX")) {
             /*
@@ -220,10 +219,10 @@ public class SimpleInterceptorImpl implements Interceptor {
     }
 
     /**
-     * Interceptor Manager calls postInvoke method at point P4.
+     * z/OS Connect EE calls postInvoke method at point P4.
      *
      * The Data object provides the request specific data available to Interceptor's and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.
      *
      * New Data elements that are available and relevant to point P4 are:

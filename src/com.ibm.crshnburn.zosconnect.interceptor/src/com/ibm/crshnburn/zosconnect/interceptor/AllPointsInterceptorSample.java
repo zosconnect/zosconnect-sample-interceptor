@@ -39,31 +39,31 @@ import com.ibm.zosconnect.spi.ServiceProviderInterceptor;
  * Connect EE, and again after the SoR response has been returned and z/OS Connect EE is about to return to the
  * caller. For simplification these points are known as P1, P2, P3, P4, and EarlyFailure.
  *
- * The flow of the API Provider request as it relates to the Interceptor framework is as follows.
+ * The flow of the API provider request as it relates to the Interceptor framework is as follows.
  *
  * 1.  A request is received by z/OS Connect EE.
  * 2.  The request is validated, e.g. Bad URL paths, authentication failures, bad JSON, etc.
  * 3.  Next, the requests Service and API information is extracted and matched to registered Services and APIs.
  * 4.  Should the request fail in the above processing the request is said to be an Early Failed request.
- * 5.  If there is an Interceptor registered with the Global Interceptor Manager that implements the
- *     EarlyFailureInterceptor interface its EarlyFail method will be invoked and the request terminates.
- * 6.  The API Provider request has now passed the early checks, the request can still fail, but it is now
- *     not an EarlyFailure and EarlyFail will now not be called.
- * 7.  If there is an Interceptor registered with either the Global, Service or API Interceptor Managers that
+ * 5.  If there is an Interceptor registered at the Global level that implements the
+ *     EarlyFailureInterceptor interface its earlyFailure method will be invoked and the request terminates.
+ * 6.  The API provider request has now passed the early checks, the request can still fail, but it is now
+ *     not an early failure and earlyFailure will now not be called.
+ * 7.  If there is an Interceptor registered at either the Global, Service or API levels that
  *     implements the Interceptor interface its preInvoke method will be invoked. This is point P1.
  * 8.  Request flow continues through z/OS Connect EE into the Service Provider which will call the
  *     System Of Record, e.g. CICS, IMS, DB2, etc.
- * 9.  If there is an Interceptor registered with either the Global, Service or API Interceptor Managers that
+ * 9.  If there is an Interceptor registered at either the Global, Service or API levels that
  *     implements the ServiceProviderInterceptor interface its preSorInvoke method will be invoked.
  *     This is point P2.  The SoR is then invoked.
  * 10. Once the SoR returns the ServiceProviderInterceptor is invoked on its postSorInvoke method.
  *     This is point P3.
- * 11. The API Provider response flow continues, any registered Interceptors with either the Global, Service or API
- *     Interceptor Managers that implements the Interceptor interface is invoked on its postInvoke method.
+ * 11. The API provider response flow continues, any registered Interceptors at either the Global, Service or API
+ *     levels that implements the Interceptor interface is invoked on its postInvoke method.
  *     This is point P4. Finally the response is sent by z/OS Connect EE.
  *
  * This Interceptor will be notified for all requests entering the z/OS Connect EE application, as a minimum either
- * on the Intercepts preInvoke method at P1, or on its EarlyFail method.  However, if the Liberty server is
+ * on the Interceptor's preInvoke method at P1, or on its earlyFailure method.  However, if the Liberty server is
  * configured to authenticate server users then these requests will not be seen if authentication fails.
  *
  * @author IBM
@@ -137,8 +137,7 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
     }
 
     /**
-     * Returns this Interceptors configured sequence number so the Interceptor Manager
-     * can determine the call sequence of Interceptors.
+     * Returns this Interceptors configured sequence number.
      */
     @Override
     public int getSequence() {
@@ -154,7 +153,7 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
     }
 
     /**
-     * Interceptor Manager calls preInvoke method at point P1.
+     * z/OS Connect EE calls preInvoke method at point P1.
      *
      * The Interceptor is given a request state map that can be used to store data entities between the preInvoke
      * at P1 and the postInvoke at P4, and also between P1, P2, P3, and P4.
@@ -163,7 +162,7 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
      * URL, HTTP Headers, etc. See com.ibm.zosconnect.spi.HttpZosConnectRequest javadoc for details.
      *
      * The Data object provides the request specific data available to Interceptors and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.  As an example
      * Data.TIME_ZOS_CONNECT_ENTRY is available which contains the z/OS Store Clock Extended time held
      * in a byte array of length 16.
@@ -213,13 +212,13 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
 
     /**
      *
-     * Interceptor Manager calls preSorInvoke method at point P2 in the Service Provider.
+     * z/OS Connect EE calls preSorInvoke method at point P2 in the Service Provider.
      *
      * The Interceptor is given a request state map that can be used to store data entities between the
      * preSorInvoke at P2 and the postSorInvoke at P3, and also postInvoke at P4.
      *
      * The Data object provides the request specific data available to Interceptors and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.
      *
      * Data elements that are available and relevant to point P2 are:
@@ -229,7 +228,7 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
      *  Data.SOR_RESOURCE
      *  Data.CORRELATOR
      *
-     * Note: There is no opportunity to cancel the API Provider request at this point with an
+     * Note: There is no opportunity to cancel the API provider request at this point with an
      *       InterceptorException.  Should a runtime exception be thrown by the method then the
      *       request will continue.
      *
@@ -257,10 +256,10 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
     }
 
     /**
-     * Interceptor Manager calls postSorInvoke method at point P3 in the Service Provider.
+     * z/OS Connect EE calls postSorInvoke method at point P3 in the Service Provider.
      *
      * The Data object provides the request specific data available to Interceptors and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.
      *
      * New Data elements that are available and relevant to point P3 are:
@@ -292,10 +291,10 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
     }
 
     /**
-     * Interceptor Manager calls postInvoke method at point P4.
+     * z/OS Connect EE calls postInvoke method at point P4.
      *
      * The Data object provides the request specific data available to Interceptors and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.
      *
      * New Data elements that are available and relevant to point P4 are:
@@ -336,10 +335,10 @@ public class AllPointsInterceptorSample implements ServiceProviderInterceptor, E
     }
 
     /**
-     * Interceptor Manager calls earlyFailure for a failing API Provider request.
+     * z/OS Connect EE calls earlyFailure for a failing API provider request.
      *
      * The Data object provides the request specific data available to Interceptors and Service Providers.
-     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API Provider request flows through
+     * See com.ibm.zosconnect.spi.Data javadoc for details.  As the API provider request flows through
      * z/OS Connect EE more data elements are captured and stored in the Data object.
      *
      * The minimum data available is as follows, however, if the request has progressed further
