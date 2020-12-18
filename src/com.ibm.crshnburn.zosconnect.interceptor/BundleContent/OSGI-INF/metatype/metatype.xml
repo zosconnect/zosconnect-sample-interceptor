@@ -3,7 +3,7 @@
                    xmlns:ibm="http://www.ibm.com/xmlns/appservers/osgi/metatype/v1.0.0"
                    localization="OSGI-INF/l10n/metatype">
 
-    <OCD id="com.ibm.crshnburn.zosconnect.interceptor" ibm:alias="simpleInterceptor" name="simpleInterceptor" description="Sample z/OS Connect Interceptor" ibm:objectClass="com.ibm.zosconnect.interceptorType">
+    <OCD id="com.ibm.crshnburn.zosconnect.interceptor" ibm:alias="simpleInterceptor" name="simpleInterceptor" description="Sample z/OS Connect EE Interceptor" ibm:objectClass="com.ibm.zosconnect.interceptorType">
         <AD id="sequence" required="false" type="Integer" default="0" min="0" max="2147483647" name="Sequence" description="The sequence in which this interceptor should be processed with respect to other configured interceptors"/>
     </OCD>
 
@@ -11,11 +11,27 @@
         <Object ocdref="com.ibm.crshnburn.zosconnect.interceptor" />
     </Designate>
 
-    <OCD id="com.ibm.crshnburn.zosconnect.allpointsinterceptor" ibm:alias="allPointsInterceptor" name="allPointsInterceptor" description="Sample All Points z/OS Connect Interceptor" ibm:objectClass="com.ibm.zosconnect.interceptorType">
+    <OCD id="com.ibm.crshnburn.zosconnect.allpointsinterceptor" ibm:alias="allPointsInterceptor" name="allPointsInterceptor" description="Sample All Points z/OS Connect EE Interceptor" ibm:objectClass="com.ibm.zosconnect.interceptorType">
         <AD id="sequence" required="false" type="Integer" default="0" min="0" max="2147483647" name="Sequence" description="The sequence in which this interceptor should be processed with respect to other configured interceptors"/>
     </OCD>
 
     <Designate factoryPid="com.ibm.crshnburn.zosconnect.allpointsinterceptor">
         <Object ocdref="com.ibm.crshnburn.zosconnect.allpointsinterceptor" />
+    </Designate>
+    
+    <OCD id="com.ibm.crshnburn.zosconnect.interceptor.requester" ibm:alias="simpleInterceptorRequester" name="simpleInterceptorRequester" description="Sample z/OS Connect EE Interceptor for API requester" ibm:objectClass="com.ibm.zosconnect.interceptorType">
+        <AD id="sequence" required="false" type="Integer" default="0" min="0" max="2147483647" name="Sequence" description="The sequence in which this interceptor should be processed with respect to other configured interceptors"/>
+    </OCD>
+    
+    <Designate factoryPid="com.ibm.crshnburn.zosconnect.interceptor.requester">
+        <Object ocdref="com.ibm.crshnburn.zosconnect.interceptor.requester" />
+    </Designate>
+    
+    <OCD id="com.ibm.crshnburn.zosconnect.allpointsinterceptor.requester" ibm:alias="allPointsInterceptorRequester" name="allPointsInterceptorRequester" description="Sample All Points z/OS Connect EE Interceptor for API requester" ibm:objectClass="com.ibm.zosconnect.interceptorType">
+        <AD id="sequence" required="false" type="Integer" default="0" min="0" max="2147483647" name="Sequence" description="The sequence in which this interceptor should be processed with respect to other configured interceptors"/>
+    </OCD>
+
+    <Designate factoryPid="com.ibm.crshnburn.zosconnect.allpointsinterceptor.requester">
+        <Object ocdref="com.ibm.crshnburn.zosconnect.allpointsinterceptor.requester" />
     </Designate>
 </metatype:MetaData>

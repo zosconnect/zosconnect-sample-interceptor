@@ -3,8 +3,6 @@
   <implementation class="com.ibm.crshnburn.zosconnect.interceptor.AllPointsInterceptorSample"/>
   <service>
      <provide interface="com.ibm.zosconnect.spi.Interceptor"/>
-     <provide interface="com.ibm.zosconnect.spi.ServiceProviderInterceptor"/>
-     <provide interface="com.ibm.zosconnect.spi.EarlyFailureInterceptor"/>
   </service>
   <property name="service.vendor" type="String" value="IBM"/>
   <property name="service.product" type="String" value="All Points Sample Interceptor"/>
