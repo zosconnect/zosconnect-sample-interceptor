@@ -56,12 +56,17 @@ The Java code will build automatically and when you are ready to create a Libert
 <zosconnect_zosConnectInterceptors id="interceptorList"
            interceptorRef="simpleInterceptor,allPointsInterceptor,simpleInterceptorRequester,allPointsInterceptorRequester"/>
 ```
-* Add the interceptors at the required global, API, service or API requester level.  See z/OS Connect EE configuration documentation for details.
+* Add the interceptors at the required global, API, service or API requester level.  This example shows the interceptor configured at the global level: 
 
+```
+<zosconnect_zosConnectManager globalInterceptorsRef="interceptorList"/>
+```
+
+* See the z/OS Connect EE configuration documentation for further details.
 
 ### Notice
 
-&copy; Copyright IBM Corporation 2015, 2020
+&copy; Copyright IBM Corporation 2015, 2021
 
 ### License
 ```
