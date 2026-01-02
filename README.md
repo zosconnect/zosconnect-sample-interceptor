@@ -40,11 +40,14 @@ The Java code will build automatically and when you are ready to create a Libert
 
 * Install the feature into your z/OS Connect EE environment `wlp/bin/installUtility install sample-interceptor.esa`.  The `wlp` directory is relative to the z/OS Connect EE installation directory.
 
-### Configuring
+### Configuring when using the zosConnect-2.0 feature
 
-* Add the following to the `featureManager` section:
+* Configure the following in the `featureManager` section:
 ```
-<feature>usr:sampleinterceptor-1.0</feature>
+<featureManager>
+    <feature>zosconnect:zosConnect-2.0</feature>
+    <feature>usr:sampleinterceptor-1.0</feature>
+</featureManager>
 ```
 * Create an interceptor definition for the four sample Interceptors:
 
@@ -60,6 +63,36 @@ The Java code will build automatically and when you are ready to create a Libert
 
 ```
 <zosconnect_zosConnectManager globalInterceptorsRef="interceptorList"/>
+```
+
+* See the z/OS Connect EE configuration documentation for further details.
+
+### Configuring when using the zosConnect-3.0 feature
+
+* Configure the following in the `featureManager` section:
+```
+<featureManager>
+    <feature>zosconnect:zosConnect-3.0</feature>
+    <feature>zosconnect:monitoring-1.0</feature>
+    <feature>usr:sampleinterceptor-1.0</feature>
+</featureManager>
+```
+* Create an interceptor definition for the four sample Interceptors:
+
+```
+<usr_simpleInterceptor id="simpleInterceptor"/>
+<usr_allPointsInterceptor id="allPointsInterceptor"/>
+<usr_simpleInterceptorRequester id="simpleInterceptorRequester"/>
+<usr_allPointsInterceptorRequester id="allPointsInterceptorRequester"/>
+<zosconnect_zosConnectInterceptors id="apiProviderList"
+           interceptorRef="simpleInterceptor,allPointsInterceptor"/>
+<zosconnect_zosConnectInterceptors id="apiRequesterList"
+           interceptorRef="simpleInterceptorRequester,allPointsInterceptorRequester"/>
+```
+* Add the `zosconnect_monitoring` element and reference the `zosconnect_zosConnectInterceptors` as required: 
+
+```
+<zosconnect_monitoring apiProviderInterceptorsRef="apiProviderList" apiRequesterInterceptorsRef="apiRequesterList"/>
 ```
 
 * See the z/OS Connect EE configuration documentation for further details.
