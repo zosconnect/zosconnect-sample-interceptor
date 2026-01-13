@@ -1,10 +1,10 @@
-## Sample z/OS Connect Enterprise Edition Interceptors
+## Sample z/OS Connect Interceptors
 
-Sample z/OS Connect Enterprise Edition (EE) Interceptors which demonstrates how to build interceptors and include them as part of a z/OS Connect configuration.
+Sample z/OS Connect Interceptors which demonstrates how to build interceptors and include them as part of a z/OS Connect configuration.
 
 ### Building
 
-This example project shows how to build a WebSphere Liberty Profile OSGi extension that can be deployed to a Liberty Profile server. This extension contains four sample z/OS Connect EE Interceptors.  If you wish to create z/OS Connect EE Interceptors of your own, then this project may be used as a base.
+This example project shows how to build a WebSphere Liberty Profile OSGi extension that can be deployed to a Liberty Profile server. This extension contains four sample z/OS Connect Interceptors.  If you wish to create z/OS Connect Interceptors of your own, then this project may be used as a base.
 
 This project contains an Eclipse project which can be imported to your Eclipse installation.  The Eclipse installation must have the IBM WebSphere Application Server V9.x Developer Tools installed.
 
@@ -12,7 +12,7 @@ Eclipse can be downloaded from `https://www.eclipse.org/downloads/`. When instal
 
 Clone this repository `git clone git://github.com/zosconnect/zosconnect-sample-interceptor.git`.  Under the `src` directory are two Eclipse projects that can be imported using the Eclipse Import wizard using type `Existing Projects into Workspace`.
 
-You now have the two sample projects, `com.ibm.crshnburn.zosconnect.interceptor`, which contains the Java source code and the OSGi configuration, and `com.ibm.crshnburn.zosconnect.feature`, which contains the WebSphere Liberty Profile feature that produces the Liberty Subsystem Archive (.esa) file that can be installed in the z/OS Connect EE Liberty profile server.
+You now have the two sample projects, `com.ibm.crshnburn.zosconnect.interceptor`, which contains the Java source code and the OSGi configuration, and `com.ibm.crshnburn.zosconnect.feature`, which contains the WebSphere Liberty Profile feature that produces the Liberty Subsystem Archive (.esa) file that can be installed in the z/OS Connect Liberty profile server.
 
 Refer to the Liberty documentation at `https://developer.ibm.com/wasdev/docs/` for full details on implementing OSGi feature bundles.
 
@@ -38,13 +38,17 @@ The Java code will build automatically and when you are ready to create a Libert
 
 ### Installing
 
-* Install the feature into your z/OS Connect EE environment `wlp/bin/installUtility install sample-interceptor.esa`.  The `wlp` directory is relative to the z/OS Connect EE installation directory.
+* Configure the `WLP_USER_DIR` environment variable appropriately for your system. For example using `WLP_USER_DIR=/var/zosconnect`. This might not be suitable if you want to use shared zFS in a Parallel Sysplex because the /var mount point cannot be shared.
+* Install the feature into your z/OS Connect environment `wlp/bin/installUtility install sample-interceptor.esa`.  The `wlp` directory is relative to the z/OS Connect installation directory.
 
-### Configuring
+### Configuring when using the zosConnect-2.0 feature
 
-* Add the following to the `featureManager` section:
+* Configure the following in the `featureManager` section:
 ```
-<feature>usr:sampleinterceptor-1.0</feature>
+<featureManager>
+    <feature>zosconnect:zosConnect-2.0</feature>
+    <feature>usr:sampleinterceptor-1.0</feature>
+</featureManager>
 ```
 * Create an interceptor definition for the four sample Interceptors:
 
@@ -62,11 +66,47 @@ The Java code will build automatically and when you are ready to create a Libert
 <zosconnect_zosConnectManager globalInterceptorsRef="interceptorList"/>
 ```
 
-* See the z/OS Connect EE configuration documentation for further details.
+* See the z/OS Connect configuration documentation for further details.
+
+### Configuring when using the zosConnect-3.0 feature
+
+* Configure the following in the `featureManager` section:
+```
+<featureManager>
+    <feature>zosconnect:zosConnect-3.0</feature>
+    <feature>zosconnect:monitoring-1.0</feature>
+    <feature>usr:sampleinterceptor-1.0</feature>
+</featureManager>
+```
+* Create an interceptor definition for the four sample Interceptors:
+
+```
+<usr_simpleInterceptor id="simpleInterceptor"/>
+<usr_allPointsInterceptor id="allPointsInterceptor"/>
+<usr_simpleInterceptorRequester id="simpleInterceptorRequester"/>
+<usr_allPointsInterceptorRequester id="allPointsInterceptorRequester"/>
+<zosconnect_zosConnectInterceptors id="apiProviderList"
+           interceptorRef="simpleInterceptor,allPointsInterceptor"/>
+<zosconnect_zosConnectInterceptors id="apiRequesterList"
+           interceptorRef="simpleInterceptorRequester,allPointsInterceptorRequester"/>
+```
+* Add the `zosconnect_monitoring` element and reference the `zosconnect_zosConnectInterceptors` as required: 
+
+```
+<zosconnect_monitoring apiProviderInterceptorsRef="apiProviderList" apiRequesterInterceptorsRef="apiRequesterList"/>
+```
+
+* See the z/OS Connect configuration documentation for further details.
+
+### Uninstalling / Updating
+
+* If you need to install a new version of the sample interceptor you must first uninstall.
+* Configure the `WLP_USER_DIR` environment variable appropriately for your system. For example using `WLP_USER_DIR=/var/zosconnect`. This might not be suitable if you want to use shared zFS in a Parallel Sysplex because the /var mount point cannot be shared.
+* Uninstall the feature from your z/OS Connect environment `wlp/bin/installUtility uninstall usr:sampleinterceptor-1.0`.  The `wlp` directory is relative to the z/OS Connect installation directory.
 
 ### Notice
 
-&copy; Copyright IBM Corporation 2015, 2021
+&copy; Copyright IBM Corporation 2015, 2026
 
 ### License
 ```
